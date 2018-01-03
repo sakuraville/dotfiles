@@ -1,0 +1,120 @@
+
+
+" --------------------------------------------
+" init.vim 
+" Last Change:27 Mar 2017, 23:48:10.
+" --------------------------------------------
+
+" --------------------------------------------
+"  Setting for dein 
+" --------------------------------------------
+
+function! s:InitDein()
+    " Prepare .config/nvim
+    let s:config_dir = $XDG_CONFIG_HOME . "/nvim"
+ 
+    " Prepare .nvim dir
+    let s:vimdir = $HOME . "/.nvim"
+    if has("vim_starting")
+        if ! isdirectory(s:vimdir)
+            call system("mkdir " . s:vimdir)
+        endif
+    endif
+
+    " dein
+
+    " Set dein paths
+    let s:dein_dir = s:vimdir . '/dein'
+    let s:dein_github = s:dein_dir . '/repos/github.com'
+    let s:dein_repo_name = "Shougo/dein.vim"
+    let s:dein_repo_dir = s:dein_github . '/' . s:dein_repo_name
+
+    " Check dein has been installed or not
+    if !isdirectory(s:dein_repo_dir)
+        echo "dein is not installed, install now "
+        let s:dein_repo = "https://github.com/" . s:dein_repo_name
+        echo "git clone " . s:dein_repo . " " . s:dein_repo_dir
+        call system("git clone " . s:dein_repo . " " . s:dein_repo_dir)
+    endif
+    let &runtimepath = &runtimepath . ',' . s:dein_repo_dir
+
+    "Begin plugin part {{{
+
+    "Check cache
+    if dein#load_state(s:dein_dir)
+        call dein#begin(s:dein_dir)
+
+        " 管理するプラグインを記述したファイル
+        let s:toml = s:config_dir .  '/dein.toml'
+        let s:lazy_toml = s:config_dir . '/dein_lazy.toml'
+        call dein#load_toml(s:toml, {'lazy': 0})
+        call dein#load_toml(s:lazy_toml, {'lazy': 1})
+        :
+        call dein#end()
+        call dein#save_state()
+    endif " dein#load
+
+    if dein#check_install(['vimproc'])
+        call dein#install(['vimproc'])
+        let g:vimproc_dll_path = s:dein_github . 'Shougo/vimproc.vim/lib/vimproc_mac.so'
+    endif
+    if dein#check_install()
+        call dein#install()
+    endif
+
+    filetype indent plugin on
+    syntax on
+endfunction
+
+call s:InitDein()
+
+" ----------------------
+"  basic settings
+" ----------------------
+
+" looks good
+if !&compatible
+  set nocompatible
+endif
+
+syntax enable
+set visualbell t_vb= 
+set scrolloff=2
+set number
+set ruler
+set shortmess+=I
+filetype indent on
+autocmd ColorScheme * highlight Normal ctermbg=none
+autocmd ColorScheme * highlight LineNr ctermbg=none
+
+" tab 
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set autoindent
+set smartindent
+set showmatch
+set backspace=indent,eol,start
+
+" search
+set ignorecase
+set smartcase
+set incsearch
+set nohlsearch
+set wrapscan
+set infercase
+
+" other
+set clipboard+=unnamedplus
+set wildmenu
+set cursorline
+set hidden
+set novisualbell
+set matchtime=3
+set wrap
+set textwidth=0
+set history=3000
+set mouse=a
+inoremap jj <ESC>
+

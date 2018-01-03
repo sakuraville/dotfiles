@@ -1,0 +1,10 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Xilinx SDK
+Exec=/usr/local/bin/run-xilinx-sdk
+Icon=/opt/Xilinx/SDK/2017.2/data/sdk/images/sdk_logo.png
+Categories=Development;
+Comment=Xilinx Software Development Kit
+StartupNotify=true
