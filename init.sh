@@ -12,10 +12,12 @@ ln -sf $HOME/dotfiles/urxvt/.Xresources $HOME/.Xresources
 xrdb $HOME/.Xresources
 # tmux
 ln -sf $HOME/dotfiles/tmux/.tmux.conf $HOME/.tmux.conf
+# zsh
+ln -sf $HOME/dotfiles/zsh/.zshrc $HOME/.zshrc
+# bash
+ln -sf $HOME/dotfiles/bash/.bashrc $HOME/.bashrc
 # cli-visualizer
 # ln -sf $HOME/dotfiles/vis ~/.config/vis
-# X11
-# ln -sf $HOME/dotfiles/X11/xorg.conf /usr/share/X11/xorg.conf.d/20-intel.conf
 # Xilinx
 # ln -sf $HOME/dotfiles/vivado/run-vivado /usr/local/bin/run-vivado
 # ln -sf $HOME/dotfiles/vivado/run-vivado-hls /usr/local/bin/run-vivado-hls
