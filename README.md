@@ -1,2 +1,4 @@
-# arch_config
-My Arch Linux Config File
+# dotfiles
+
+My Arch Linux Settings
+
