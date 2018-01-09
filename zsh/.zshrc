@@ -12,13 +12,16 @@ source ~/.zplug/init.zsh
 
 # PLUGINS {{{
 # zplug
-zplug "/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-autosuggestions", defer:2
 zplug "zsh-users/zsh-completions"
 zplug load
 # export ZSH_HIGHLIGHT_STYLES[path]='fg=081'
 
 # zsh-completions
-fpath=(~/.zplug/repos/zsh-users/zsh-completions/src ~/.zsh/completion $fpath)
+# if [ -e .zplug/repos/zsh-users/zsh-completions ]; then
+#     fpath=(.zplug/repos/zsh-users/zsh-completions/src $fpath)
+# fi
 
 autoload -Uz compinit
 compinit -i
