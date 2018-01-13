@@ -16,6 +16,8 @@ ln -sf $HOME/dotfiles/tmux/.tmux.conf $HOME/.tmux.conf
 ln -sf $HOME/dotfiles/zsh/.zshrc $HOME/.zshrc
 # bash
 ln -sf $HOME/dotfiles/bash/.bashrc $HOME/.bashrc
+# latex
+ln -sf $HOME/dotfiles/latex/.latexmkrc $HOME/.latexmkrc
 # cli-visualizer
 # ln -sf $HOME/dotfiles/vis ~/.config/vis
 # Xilinx
