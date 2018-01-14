@@ -6,7 +6,7 @@
 #
 
 # INPORTS {{{
-source ~/.bashrc
+# source ~/.bashrc
 source ~/.zplug/init.zsh
 # }}}
 
@@ -86,20 +86,38 @@ man() {
 # PROMPT {{{
 # prompt
 colors
-PROMPT=" %{%}%~%{%}
- %{%}%(!.#.$)%{%} "
-RPROMPT="%{%}[%m]%{%}"
 
-# vcs_info
+local prompt_location="%F{cyan}%B%~%b%f"
+local promot_mark="%B%(?,%F{magenta},%F{red})%(!,#,❯)%b"
+
+# vcs_infoロード
 autoload -Uz vcs_info
+# PROMPT変数内で変数参照する
 setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
-zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
-zstyle ':vcs_info:*' actionformats '[%b|%a]'
-precmd () { vcs_info }
-RPROMPT='${vcs_info_msg_0_} '$RPROMPT
+
+# vcsの表示
+zstyle ':vcs_info:*' formats '%s][* %F{green}%b%f'
+zstyle ':vcs_info:*' actionformats '%s][* %F{green}%b%f(%F{red}%a%f)'
+
+# プロンプト表示直前にvcs_info呼び出し
+precmd() {
+    vcs_info
+}
+
+# vcs_info_msg_0_の書式設定
+# zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' check-for-changes false
+zstyle ':vcs_info:git:*' stagedstr         "%F{yellow}!%f"
+zstyle ':vcs_info:git:*' unstagedstr       "%F{red}+%f"
+zstyle ':vcs_info:*'     formats           " (%F{green}%b%f%c%u)"
+zstyle ':vcs_info:*'     actionformats     ' (%b|%a)'
+
+# プロンプト
+PROMPT="
+${prompt_location}"'$vcs_info_msg_0_'"
+${promot_mark} "
+
+
 # }}}
 
 
@@ -308,6 +326,9 @@ export XDG_CONFIG_HOME=~/.config
 [[ -z "$TMUX" && ! -z "$PS1" ]] && tmux
 # }}}
 
+# miniconda
+# added by Miniconda3 installer
+export PATH="/home/jun-i/miniconda3/bin:$PATH"
 
 # LOCAL {{{
 # Load local setting
