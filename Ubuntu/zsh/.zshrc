@@ -48,12 +48,7 @@ if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]
 fi
 # }}}
 
-
 # COLOR {{{
-# LS_COLORS
-# eval `dircolors -b`
-# eval `dircolors ${HOME}/.dircolors`
-
 # remove file mark
 # unsetopt list_types
 
@@ -61,8 +56,6 @@ fi
 autoload colors
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
-
 
 # less
 export LESS='-R'
@@ -82,44 +75,43 @@ man() {
 }
 # }}}
 
-
 # PROMPT {{{
 # prompt
-colors
+# colors
+# 
+# local prompt_location="%F{cyan}%B%~%b%f"
+# local promot_mark="%B%(?,%F{magenta},%F{red})%(!,#,❯)%b"
+# 
+# # vcs_infoロード
+# autoload -Uz vcs_info
+# # PROMPT変数内で変数参照する
+# setopt prompt_subst
+# 
+# # vcsの表示
+# zstyle ':vcs_info:*' formats '%s][* %F{green}%b%f'
+# zstyle ':vcs_info:*' actionformats '%s][* %F{green}%b%f(%F{red}%a%f)'
+# 
+# # プロンプト表示直前にvcs_info呼び出し
+# precmd() {
+#     vcs_info
+# }
+# 
+# # vcs_info_msg_0_の書式設定
+# # zstyle ':vcs_info:git:*' check-for-changes true
+# zstyle ':vcs_info:git:*' check-for-changes false
+# zstyle ':vcs_info:git:*' stagedstr         "%F{yellow}!%f"
+# zstyle ':vcs_info:git:*' unstagedstr       "%F{red}+%f"
+# zstyle ':vcs_info:*'     formats           " (%F{green}%b%f%c%u)"
+# zstyle ':vcs_info:*'     actionformats     ' (%b|%a)'
+# 
+# # プロンプト
+# PROMPT="
+# ${prompt_location}"'$vcs_info_msg_0_'"
+# ${promot_mark} "
 
-local prompt_location="%F{cyan}%B%~%b%f"
-local promot_mark="%B%(?,%F{magenta},%F{red})%(!,#,❯)%b"
-
-# vcs_infoロード
-autoload -Uz vcs_info
-# PROMPT変数内で変数参照する
-setopt prompt_subst
-
-# vcsの表示
-zstyle ':vcs_info:*' formats '%s][* %F{green}%b%f'
-zstyle ':vcs_info:*' actionformats '%s][* %F{green}%b%f(%F{red}%a%f)'
-
-# プロンプト表示直前にvcs_info呼び出し
-precmd() {
-    vcs_info
-}
-
-# vcs_info_msg_0_の書式設定
-# zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' check-for-changes false
-zstyle ':vcs_info:git:*' stagedstr         "%F{yellow}!%f"
-zstyle ':vcs_info:git:*' unstagedstr       "%F{red}+%f"
-zstyle ':vcs_info:*'     formats           " (%F{green}%b%f%c%u)"
-zstyle ':vcs_info:*'     actionformats     ' (%b|%a)'
-
-# プロンプト
-PROMPT="
-${prompt_location}"'$vcs_info_msg_0_'"
-${promot_mark} "
-
-
+#PS1="%{$fg[cyan]%}[${USER}@${HOST%%.*} %1~]%(!.#.$)${reset_color} "
+PS1="[${USER}@${HOST%%.*} %1~]%(!.#.$)${reset_color} "
 # }}}
-
 
 # ALIAS {{{
 # general
@@ -154,7 +146,6 @@ alias gp='git pull'
 # alias dps='docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"'
 # }}}
 
-
 # KEY {{{
 # key bind
 typeset -A key
@@ -183,137 +174,9 @@ if [[ -n "${terminfo}" ]]; then
     [[ -n "${key[PageUp]}"   ]]  && bindkey  "${key[PageUp]}"   beginning-of-buffer-or-history
     [[ -n "${key[PageDown]}" ]]  && bindkey  "${key[PageDown]}" end-of-buffer-or-history
 fi
-
-# word
-bindkey "\e[1;5C" forward-word
-bindkey "\e[1;5D" backward-word
-WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
-if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
-    function zle-line-init () {
-        printf '%s' "${terminfo[smkx]}"
-    }
-    function zle-line-finish () {
-        printf '%s' "${terminfo[rmkx]}"
-    }
-    zle -N zle-line-init
-    zle -N zle-line-finish
-fi
 # }}}
-
-
-# PECO {{{
-# peco
-function peco-history-selection() {
-    BUFFER=`history -n 1 | tac  | awk '!a[$0]++' | peco`
-    CURSOR=$#BUFFER
-    zle reset-prompt
-}
-
-zle -N peco-history-selection
-bindkey '^R' peco-history-selection
-
-function peco-ghq-look () {
-    local ghq_roots="$(git config --path --get-all ghq.root)"
-    local selected_dir=$(ghq list --full-path | \
-        xargs -I{} ls -dl --time-style=+%s {}/.git | sed 's/.*\([0-9]\{10\}\)/\1/' | sort -nr | \
-        sed "s,.*\(${ghq_roots/$'\n'/\|}\)/,," | \
-        sed 's/\/.git//' | \
-        peco --prompt="cd-ghq >" --query "$LBUFFER")
-    if [ -n "$selected_dir" ]; then
-        BUFFER="cd $(ghq list --full-path | grep --color=never -E "/$selected_dir$")"
-        zle accept-line
-    fi
-}
-
-zle -N peco-ghq-look
-bindkey '^G' peco-ghq-look
-
-function peco-cdr () {
-    local selected_dir="$(cdr -l | sed 's/^[0-9]\+ \+//' | peco --prompt="cdr >" --query "$LBUFFER")"
-    if [ -n "$selected_dir" ]; then
-        BUFFER="cd ${selected_dir}"
-        zle accept-line
-    fi
-}
-zle -N peco-cdr
-bindkey '^E' peco-cdr
-# }}}
-
-# COMPLETION {{{
-# pip
-function _pip_completion {
-  local words cword
-  read -Ac words
-  read -cn cword
-  reply=( $( COMP_WORDS="$words[*]" \
-             COMP_CWORD=$(( cword-1 )) \
-             PIP_AUTO_COMPLETE=1 $words[1] ) )
-}
-compctl -K _pip_completion pip3
-
-# npm
-if type complete &>/dev/null; then
-    _npm_completion () {
-        local words cword
-        if type _get_comp_words_by_ref &>/dev/null; then
-            _get_comp_words_by_ref -n = -n @ -n : -w words -i cword
-        else
-            cword="$COMP_CWORD"
-            words=("${COMP_WORDS[@]}")
-        fi
-
-        local si="$IFS"
-        IFS=$'\n' COMPREPLY=($(COMP_CWORD="$cword" \
-            COMP_LINE="$COMP_LINE" \
-            COMP_POINT="$COMP_POINT" \
-            npm completion -- "${words[@]}" \
-            2>/dev/null)) || return $?
-        IFS="$si"
-        if type __ltrim_colon_completions &>/dev/null; then
-            __ltrim_colon_completions "${words[cword]}"
-        fi
-    }
-    complete -o default -F _npm_completion npm
-elif type compdef &>/dev/null; then
-    _npm_completion() {
-        local si=$IFS
-        compadd -- $(COMP_CWORD=$((CURRENT-1)) \
-            COMP_LINE=$BUFFER \
-            COMP_POINT=0 \
-            npm completion -- "${words[@]}" \
-            2>/dev/null)
-        IFS=$si
-    }
-    compdef _npm_completion npm
-elif type compctl &>/dev/null; then
-    _npm_completion () {
-        local cword line point words si
-        read -Ac words
-        read -cn cword
-        let cword-=1
-        read -l line
-        read -ln point
-        si="$IFS"
-        IFS=$'\n' reply=($(COMP_CWORD="$cword" \
-            COMP_LINE="$line" \
-            COMP_POINT="$point" \
-            npm completion -- "${words[@]}" \
-            2>/dev/null)) || return $?
-        IFS="$si"
-    }
-    compctl -K _npm_completion npm
-fi
-# }}}
-
 
 # OTHER {{{
-
-# pandoc
-# pandoc_git () {
-#     pandoc -s --self-contained -t html5 -c ~/.pandoc/github.css $@
-# }
-
 # neovim
 export XDG_CONFIG_HOME=~/.config
 
@@ -330,10 +193,6 @@ eval "$(pyenv init -)"
 # tmux
 [[ -z "$TMUX" && ! -z "$PS1" ]] && tmux
 # }}}
-
-# miniconda
-# added by Miniconda3 installer
-export PATH="/home/jun-i/miniconda3/bin:$PATH"
 
 # LOCAL {{{
 # Load local setting
