@@ -110,7 +110,7 @@ man() {
 # ${promot_mark} "
 
 #PS1="%{$fg[cyan]%}[${USER}@${HOST%%.*} %1~]%(!.#.$)${reset_color} "
-PS1="[${USER}@${HOST%%.*} %1~]%(!.#.$)${reset_color} "
+PS1="[${USER}@${HOST%%.*} %1~] %(!.#.$) "
 # }}}
 
 # ALIAS {{{
