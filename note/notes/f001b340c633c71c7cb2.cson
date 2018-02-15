@@ -1,0 +1,70 @@
+type: "MARKDOWN_NOTE"
+folder: "02bd1b28382cd72b334d"
+title: "python3 install + Kubuntu 16.04 LTS"
+content: '''
+  # python3 install + Kubuntu 16.04 LTS
+  
+  ## 環境
+  Kubuntu 16.04LTS + python3 + pyenv + miniconda
+  
+  ### 環境構築
+  pyenvをインストールする．
+  ```
+  $ git clone https://github.com/yyuu/pyenv.git ~/.pyenv
+  $ echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+  $ echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+  $ echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+  $ source ~/.bashrc
+  ```
+  
+  minicondaをインストールする．
+  ```
+  $ pyenv install -l | grep miniconda
+  # 最新版を導入
+  $ pyenv install miniconda3-4.3.11
+  $ pyenv rehash
+  $ pyenv global miniconda3-4.11
+  # minicondaをメインのpythonに設定。
+  $ echo 'export PATH="$PYENV_ROOT/versions/miniconda3-4.3.11/bin/:$PATH"' >> ~/.bashrc
+  $ source ~/.bashrc
+  $ conda update conda
+  ```
+  `echo 'export PATH="$PYENV_ROOT/versions/miniconda3-4.3.11/bin/:$PATH"' >> ~/.bashrc`
+  は`pyenv local`や`pyenv global`を拒否する．
+  
+  そのため`pyenv local`で運用する際には，condaのアクティベートのpathを通す必要がある．
+  `source ~/.pyenv/versions/miniconda3-4.3.11/bin/activate <環境名>`
+  
+  ### pyenv local運用する
+  フルパスで通すのをやめて
+  ```
+  $ source $PYENV_ROOT/versions/miniconda3-4.3.11/bin/activate <環境名>
+  ```
+  エイリアスを通すと楽
+  ```
+  $ echo 'alias activate="source $PYENV_ROOT/versions/miniconda3-4.3.11/bin/activate"' >> ~/.bashrc
+  $ source ~/.bashrc
+  ```
+  これで，
+  
+  `pyenv local`で作業フォルダごとに環境を切り替えれる
+  ```
+  $ conda create -n py2 python=2.7
+  $ mkdir py2
+  $ cd py2
+  $ pyenv local miniconda3-4.3.11/envs/py2
+  $ python
+  #>>>Python 2.7.11 |Continuum Analytics, Inc.| (default, Dec  6 2015, 18:08:32)
+  #>>>[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)] on linux2
+  ```
+  環境切り替えは`activate`と`pyenv local`で
+  
+  参考
+  http://qiita.com/y__sama/items/f732bb7bec2bff355b69
+  
+'''
+tags: []
+isStarred: false
+isTrashed: false
+createdAt: "2017-12-09T14:05:14.565Z"
+updatedAt: "2017-12-09T14:05:44.824Z"

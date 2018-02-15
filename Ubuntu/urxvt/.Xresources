@@ -10,7 +10,7 @@ URxvt.pointerBlank: true
 Urxvt.secondaryScreen: 1
 Urxvt.secondaryScroll: 0
 Urxvt.internalBorder: 10
-urxvt.letterSpace: 0
+urxvt.letterSpace: -10
 URxvt.transparent: true
 URxvt.shading: 20
 

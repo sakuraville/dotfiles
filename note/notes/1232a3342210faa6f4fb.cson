@@ -1,0 +1,86 @@
+type: "MARKDOWN_NOTE"
+folder: "d85638d63d813a81f513"
+title: "Zsh Install + Kubuntu 16.04 LTS"
+content: '''
+  # Zsh Install + Kubuntu 16.04 LTS
+  
+  ## 環境
+  * Kubuntu 16.04 LTS
+  * Git 2.13.0
+  * Zplug
+  
+  ## Zshをインストール
+  ```
+  $ sudo apt install zsh
+  ```
+  ## Zshをデフォルトシェルに
+  ```
+  $ chsh -s $(which zsh)
+  ```
+  
+  ## Zshの初期設定
+  recommendされている`(2)`を選択
+  ```
+  $ zsh
+  
+  This is the Z Shell configuration function for new users,
+  zsh-newuser-install.
+  You are seeing this message because you have no zsh startup files
+  (the files .zshenv, .zprofile, .zshrc, .zlogin in the directory
+  ~).  This function can help you with a few settings that should
+  make your use of the shell easier.
+  
+  You can:
+  
+  (q)  Quit and do nothing.  The function will be run again next time.
+  
+  (0)  Exit, creating the file ~/.zshrc containing just a comment.
+       That will prevent this function being run again.
+  
+  (1)  Continue to the main menu.
+  
+  (2)  Populate your ~/.zshrc with the configuration recommended
+       by the system administrator and exit (you will need to edit
+       the file by hand, if so desired).
+  
+  --- Type one of the keys in parentheses --- 2
+  /home/user/.zshrc:15: scalar parameter HISTFILE created globally in function zsh-newuser-install
+  ```
+  
+  ## 依存関係ツールのインストール
+  ```
+  $ sudo apt install git curl gawk
+  ```
+  ## Zplugのインストール
+  ```
+  $ curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
+  ✔  Checking if your zsh version is newer than 4.1.9 [SUCCEEDED]
+  ✔  Installing zplug to /home/user/.zplug [SUCCEEDED]
+  All processes are successfully completed 🎉
+  For more information, see http://zplug.sh 🌺
+  Enjoy zplug!
+  ```
+  
+  ホームディレクトリにを`.zplug`フォルダができた．
+  `zshrc`に`zplug`を読み込むように指定する
+  ```
+  source ~/.zplug/init.zsh
+  
+  # インストールしたいプラグイン
+  
+  # Install plugins if there are plugins that have not been installed
+  if ! zplug check --verbose; then
+      printf "Install? [y/N]: "
+      if read -q; then
+          echo; zplug install
+      fi
+  fi
+  
+  zplug load --verbose > /dev/null
+  ```
+'''
+tags: []
+isStarred: false
+isTrashed: false
+createdAt: "2017-12-09T13:49:27.509Z"
+updatedAt: "2017-12-09T13:49:32.310Z"

@@ -1,0 +1,85 @@
+{
+  "folders": [
+    {
+      "key": "407ca4660036878824f3",
+      "color": "#FF8E00",
+      "name": "Boostnote"
+    },
+    {
+      "key": "754b7fdfe8c605a138e5",
+      "color": "#2BA5F7",
+      "name": "Xilinx"
+    },
+    {
+      "key": "7c320bfe6916189e81aa",
+      "color": "#2BA5F7",
+      "name": "Git"
+    },
+    {
+      "key": "9623484067eedd76b69e",
+      "color": "#E8D252",
+      "name": "Study"
+    },
+    {
+      "key": "fc3408f307745f3d4ca0",
+      "color": "#E10051",
+      "name": "Extra"
+    },
+    {
+      "key": "d85638d63d813a81f513",
+      "color": "#E8D252",
+      "name": "Zsh"
+    },
+    {
+      "key": "0a3e6d012949ec431c33",
+      "color": "#B013A4",
+      "name": "Icarus Verilog"
+    },
+    {
+      "key": "40607b78b62ae06589e8",
+      "color": "#E10051",
+      "name": "Graduate Exam"
+    },
+    {
+      "key": "929f2017d8d25fd62a28",
+      "color": "#30D5C8",
+      "name": "Open Vpn"
+    },
+    {
+      "key": "92a1498298cc1a89f0d2",
+      "color": "#B013A4",
+      "name": "Zynq"
+    },
+    {
+      "key": "43e744da4bd2665352d9",
+      "color": "#3FD941",
+      "name": "Proxy"
+    },
+    {
+      "key": "02bd1b28382cd72b334d",
+      "color": "#B013A4",
+      "name": "Python"
+    },
+    {
+      "key": "b7ce6514a4ffdab89637",
+      "color": "#3FD941",
+      "name": "Arch Linux"
+    },
+    {
+      "key": "9ff3757efb90a86493e2",
+      "color": "#FF8E00",
+      "name": "Android"
+    },
+    {
+      "key": "6baa129db50286e7fd9c",
+      "color": "#FF8E00",
+      "name": "Ubuntu"
+    },
+    {
+      "key": "729853406deecb2c59b4",
+      "color": "#B013A4",
+      "name": "Study"
+    }
+  ],
+  "version": "1.0"
+}

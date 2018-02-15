@@ -1,0 +1,34 @@
+type: "MARKDOWN_NOTE"
+folder: "754b7fdfe8c605a138e5"
+title: "Vivado Install + Arch Linux"
+content: '''
+  # Vivado Install + Arch Linux
+  
+  ##  インストール前に(依存パッケージ)
+  `ncurses5-compat-libs`が必要となる．
+  
+  ```
+  $ gpg --recv-keys 702353E0F7E48EDB
+  $ yaourt -S ncurses5-compat-libs
+  ```
+  をしておく．
+  
+  ##  インストール
+  ```
+  $ sudo cmmod +x ./hoge.bin
+  $ sudo ./hoge.bin --confirm
+  
+  # ここで，yesを押して，/tmp/以下にxsetupを作る．
+  # その後，xsetupを編集するために以下のコマンド，
+  $ cd /tmp/hogehoge/
+  $ sed -i.original 's/uname -i/uname -m/' xsetup
+  
+  # 先程のインストール画面で，xsetupを起動
+  $ sudo ./xsetup
+  ```
+'''
+tags: []
+isStarred: false
+isTrashed: false
+createdAt: "2017-12-09T14:07:36.801Z"
+updatedAt: "2017-12-09T14:08:28.824Z"

@@ -1,0 +1,30 @@
+createdAt: "2018-01-21T11:35:15.284Z"
+updatedAt: "2018-01-21T12:20:58.393Z"
+type: "MARKDOWN_NOTE"
+folder: "9ff3757efb90a86493e2"
+title: "Android Studio Install"
+content: '''
+  # Android Studio Install
+  
+  ## Arch Linux
+  
+  ```
+  $ yaourt -S android-studio
+  $ yaourt -S android-tools android-udev
+  
+  # add your user to the adbusers group
+  $ sudo gpasswd -a jun-i adusers
+  
+  $ yaourt -S genymotion
+  
+  # install the linux-headers for your kernel version
+  $ uname -r
+  $ yaourt -S linux-headers
+  
+  $ sudo reboot
+  
+  ```
+'''
+tags: []
+isStarred: false
+isTrashed: false

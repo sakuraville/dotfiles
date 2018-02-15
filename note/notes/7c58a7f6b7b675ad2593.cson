@@ -1,0 +1,112 @@
+type: "MARKDOWN_NOTE"
+folder: "754b7fdfe8c605a138e5"
+title: "vivado Install + Ubuntu 17.04"
+content: '''
+  # vivado Install + Ubuntu 17.04
+  
+  
+  ```
+  # Error
+  sudo chown –R jun-i:jun-i .Xilinx 
+  ```
+  
+  ### Download & Install
+  https://japan.xilinx.com/support/download.html
+  ```
+  sudo chmod +x [installer]
+  sudo ./[installer]
+  ```
+  
+  ### Cable Driver Install
+  ```
+  sudo /opt/Xilinx/Vivado/2017.2/data/xicom/cable_drivers/lin64/install_script/install_drivers/install_drivers
+  ```
+  
+  ### Vivado Start
+  ```
+  source /opt/Xilinx/Vivado/2017.2/settings64.sh
+  vivado &
+  ```
+  ### Xilinx SDK Start
+  ```
+  # GTK+3 down
+  export SWT_GTK3=0
+    or
+  alias xsdk='env SWT_GTK3=0 xsdk'
+  ```
+  ### Documentation Navigator Start
+  ```
+  sudo dpkg --add-architecture i386
+  sudo apt update
+  sudo apt install libstdc++6:i386 libgtk2.0-0:i386 libfontconfig1:i386 libx11-6:i386 libxext6:i386 libxrender1:i386 libsm6:i386 libqtgui4:i386
+  ```
+  ### .desktop ~Shortcut Create~
+  ```bash:/usr/local/bin/run-vivado
+  #!/bin/bash
+  . /opt/Xilinx/Vivado/2017.2/settings64.sh
+  vivado &
+  ```
+  ```bash:/usr/local/bin/run-xilinx-sdk
+  #!/bin/bash
+  export SWT_GTK3=0
+  . /opt/Xilinx/SDK/2017.2/settings64.sh
+  xsdk &
+  ```
+  `sudo chmod +x` type
+  <br>
+  **Next**
+  to `~/.local/share/applications` write 
+  <br>
+  `Xilinx-Vivado.desktop`
+  ```bash
+  #!/usr/bin/env xdg-open
+  [Desktop Entry]
+  Version=1.0
+  Type=Application
+  Name=Xilinx Vivado
+  Exec=/usr/local/bin/run-vivado
+  Path=[Vivadoの作業ディレクトリ]
+  Icon=/opt/Xilinx/Vivado/2017.2/doc/images/vivado_logo.png
+  Categories=Development;
+  Comment=Vivado Integrated Development Environment
+  StartupNotify=true
+  ```
+  <br>
+  
+  `Xilinx-SDK.desktop`
+  ```bash
+  #!/usr/bin/env xdg-open
+  [Desktop Entry]
+  Version=1.0
+  Type=Application
+  Name=Xilinx SDK
+  Exec=/usr/local/bin/run-xilinx-sdk
+  Icon=/opt/Xilinx/SDK/2017.2/data/sdk/images/sdk_logo.png
+  Categories=Development;
+  Comment=Xilinx Software Development Kit
+  StartupNotify=true
+  ```
+  <br>
+  
+  `:Xilinx-DocNav.desktop`
+  ```bash
+  #!/usr/bin/env xdg-open
+  [Desktop Entry]
+  Version=1.0
+  Type=Application
+  Name=Xilinx Documentation Navigator 
+  Exec=/opt/Xilinx/DocNav/docnav
+  Icon=/opt/Xilinx/DocNav/resources/doc_nav_application_48.png
+  Categories=Development;
+  Comment=Xilinx Documentation Navigator
+  ```
+  <br>
+  
+  *reference*
+  [Qiita](http://qiita.com/petersheep/items/70619d91ae3befa42667)
+'''
+tags: []
+isStarred: false
+isTrashed: false
+createdAt: "2017-12-09T06:53:57.082Z"
+updatedAt: "2017-12-09T14:08:10.178Z"

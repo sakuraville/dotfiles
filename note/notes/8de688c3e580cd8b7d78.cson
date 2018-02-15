@@ -1,0 +1,180 @@
+type: "MARKDOWN_NOTE"
+folder: "b7ce6514a4ffdab89637"
+title: "環境設定 i3wm"
+content: '''
+  # 環境設定 i3wm
+  
+  ## pacmanによるpackage install 
+  ```
+  # 同期
+  $ pacman -Syy
+  
+  # ネットワーク設定用ツール
+  $ pacman -S networkmanager network-manager-applet \\
+  gnome-keyring wpa_supplicant dialog 
+  
+  # terminal
+  $ pacman -S rxvt-unicode tree
+  
+  
+  # graphic driver
+  # $ lspci | grep VGAなどで，ビデオカードを確認できる．
+  # nvidiaならxf86-video-nouveauなど適宜
+  $ pacman -S xf86-video-intel mesa
+  
+  # X window system
+  $ pacman -S xorg-server xorg-xinit xord-xbacklight xorg-xclock
+  
+  # lightdm
+  $ pacman -S lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings
+  
+  # xfce4
+  $ pacman -S xfce4 xfce4-goodies gamin xdg-user-dirs-gtk gvfs 
+  
+  # i3
+  $ pacman -S i3-wm i3status dmenu compton lxappearance
+  
+  # fonts
+  $ pacman -S ttf-dejavu otf-ipafont
+  
+  # ポップアップ & daemon
+  $ pacman -S dunst 
+  
+  # 日本語入力ツール
+  $ pacman -S fcitx-im fcitx-configtool fcitx-mozc
+  
+  # 音
+  $ pacman -S pluseaudio pulseaudio-alsa xfce4-pulseaudio-plugin volumeicon alsa-utils pavucontrol
+  
+  ## rictyをインストールするために
+  $ pacman -S binutils fakeroot
+  
+  ## 必要最低限パッケージ
+  $ pacman -S openssh openssl gtkwave iverilog xsel poppler-data \\
+  evince gufw xsel ranger udisk2 udevil firefox firefox-i18n-ja \\
+  binutils fakeroot
+  ```
+  
+  ## 個人ユーザ作成
+  ```
+  $ useradd -m -g users -G wheel -s /bin/bash "username"
+  $ passwd "username"
+  $ visudo
+  ```
+  個人ユーザがsudo実行できるように，以下の行をアンコメント．
+  ```
+  %wheel ALL=(ALL) ALL
+  ```
+  
+  ## ネット接続
+  有線接続など`wifi-menu`などで接続している．
+  これを永続的に繋ぐには，
+  * 有線接続の場合
+  ```
+  $ systemctl enable dhcpcd
+  ```
+  * wifi接続と有線接続を両立
+  ```
+  $ systemctl enable NetworkManager.service
+  ```
+  いまここで systemctl start をかますと接続中の dhcpcd や wifi-menu とかぶってしまうのでやらない。
+  
+  なお dhcpcd と NetworkManager の両方を enable するのはトラブルのもとなので同時に設定などしない。ちなみに設定をもどしたいなら `systemctl disable`を使う．
+  
+  ## yaourt導入
+  `/etc/pacman.conf`に以下を追記
+  ```
+  [archlinuxfr]
+  SigLevel = Never
+  Server = http://repo.archlinux.fr/$arch
+  ```
+  そして，
+  ```
+  $ pacman --sync --refresh yaourt
+  ```
+  
+  ## lightdm起動
+  ```
+  $ systemctl enable lightdm.service
+  ```
+  
+  ## AURでのパッケージインストール
+  ```
+  ## 必要最低限
+  $ yaourt -S google-chorome boostnote 
+  ## rictyをコンパイルするために
+  $ yaourt -S ttf-ricty
+  ```
+  
+  ## mozc
+  mozc ダイアログ開き方
+  ```
+  $ /usr/lib/mozc/mozc_tool --mode=config_dialog
+  ```
+  
+  ## デスクトップ通知
+  ```
+  $ sudo pacman -S dunst
+  $ mkdir ~/.config/dunst
+  $ sudo cp /usr/share/dunst/dunstrc ~/.config/dunst/
+  ```
+  
+  ## firewall
+  ```
+  $ sudo gufw
+  ```
+  設定は，内部ネットワークにあるsmbに接続するためには，
+  ![gufw-smb](http://sicklylife.at-ninja.jp/memo/ubuntu1404/gufw_08.png)
+  
+  ## ranger
+  ```
+  デフォルトの設定を作るには
+  ranger --copy-config=all
+  ```
+  
+  ## beep音解除
+  `/etc/modprobe.d/blacklist.conf`に以下の行を追加
+  ```
+  blacklist pcspkr
+  ```
+  
+  ## usb_mount
+  ```
+  # これはudevilいれてたらいらない
+  $ pacman -S devmon
+  
+  $ sudo chmod -s /usr/bin/udevil
+  $ sudo systemctl enable devmon@jun-i.service
+  ```
+  
+  FONTの設定
+  ```
+  $ su
+  $ vim /etc/fonts/conf.avail/71-no-embedded-bitmaps.conf
+  ```
+  以下のように記述．
+  ```
+  <?xml version="1.0"?>
+  <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+  <fontconfig>
+    <match target="font">
+      <edit mode="assign" name="embeddedbitmap">
+        <bool>false</bool>
+      </edit>
+      <edit mode="assign" name="hintstyle">
+         <const>hintnone</const>
+      </edit>
+    </match>
+  </fontconfig>
+  ```
+  ```
+  $ ln -s /etc/fonts/conf.avail/71-no-embedded-bitmaps.conf /etc/fonts/conf.d/71-no-embedded-bitmaps.conf
+  $ reboot
+  ```
+  フォントがきれいに。
+'''
+tags: []
+isStarred: false
+isTrashed: false
+createdAt: "2017-12-09T14:07:06.999Z"
+updatedAt: "2017-12-09T14:07:09.977Z"

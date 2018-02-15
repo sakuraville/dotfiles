@@ -1,0 +1,338 @@
+type: "MARKDOWN_NOTE"
+folder: "b7ce6514a4ffdab89637"
+title: "Arch Linux (GPT)"
+content: '''
+  # Arch Linux (GPT)
+  
+  ## Arch Linux Install
+  ### キーボードレイアウトの変更
+  USキーボードでない場合はキーボードの変更．
+  例えば，日本語キーボードの場合
+  ```
+  $ loadkeys jp106
+  $ setfont lat9w-16
+  ```
+  
+  ### パーティショニングとファイルシステム作成
+  パーティションを
+  | Number | Start (sector) | End (sector) | Size | Code | Name |
+  |:--|--:|--------:|----:|---:|----:|---:|
+  | 1 | hoge | hoge | 512.0MiB | EF00 | EFI System |
+  | 2 | hoge | hoge | 16.0GiB  | 8200 | Linux swap |
+  | 3 | hoge | hoge | all      | 8300 | Linux filesystem |
+  となるように設定する．
+  
+  ```
+  $ gdisk /dev/sda
+  
+  Command (? for help):o
+  
+  Command (? for help):n
+  Permission number: 1
+  First sector     : 何も押さずエンター
+  Last sector      : +512M
+  Hex code or GUID : EF00
+  
+  Command (? for help):n
+  Permission number: 2
+  First sector     : 何も押さずエンター
+  Last sector      : +16G
+  Hex code or GUID : 8200
+  
+  Command (? for help):n
+  Permission number: 3
+  First sector     : 何も押さずエンター
+  Last sector      : 何も押さずエンター 
+  Hex code or GUID : 8300
+  ```
+  `cfdisk`使うのもあり．
+  
+  ### ファイルシステムとswapの作成
+  ```
+  # ESPのフォーマット
+  $ mkfs.vfat -F32 /dev/sda1
+  
+  # Linuxファイルシステムのフォーマット
+  $ mkfs.ext4 /dev/sda3
+  
+  # スワップの作成と読み込み
+  $ mkswap /dev/sda2
+  $ swapon /dev/sda2
+  ```
+  
+  ### パーティションのマウント
+  ```
+  # まずはルートからマウントする．
+  $ mount /dev/sda3 /mnt
+  
+  # 次にESPを/mnt/bootにマウントする．
+  $ mkdir /mnt/boot
+  $ mount /dev/sda1 /mnt/boot
+  ```
+  
+  ### ミラーリストの設定
+  Asiaのjaistサーバーを一番上に
+  ```
+  vi /etc/pacman.d/mirrorlist
+  ```
+  
+  
+  ### 最小構成作成(base install)
+  ```
+  $ pacman -Syy
+  $ pacstrap /mnt base base-devel
+  ```
+  
+  ### fstabの作成
+  ```
+  $ genfstab -U -p /mnt >> /mnt/etc/fstab
+  ```
+  
+  ## システム設定
+  ## 新システムへの移行
+  ```
+  $ arch-chroot /mnt /bin/bash
+  ```
+  
+  ### ロケール設定
+  `$ vi /etc/locale.gen`
+  以下の行をコメントアウトする．
+  ```
+  en_US.UTF-8 UTF-8
+  ja_JP.UTF-8 UTF-8 
+  ```
+  次に以下のコマンドを実行する．
+  ```
+  $ locale-gen
+  ```
+  ```
+  $ echo LANG=en_US.UTF-8 > /etc/locale.conf
+  $ export LANG=en_US.UTF-8 
+  ```
+  
+  ### コンソールフォントとキーボードレイアウトの設定
+  `$ vim /etc/vconsole.conf`
+  ```
+  KEYMAP=jp106
+  FONT=lat9w-16
+  ```
+  
+  ### タイムゾーン設定
+  ```
+  $ ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+  $ hwclock --systohc --utc
+  ```
+  
+  ### ホスト名の設定
+  ```
+  $ echo 〈ホスト名〉 > /etc/hostname
+  $ nano /etc/hosts
+  ...
+  #<ip-address> <hostname.domain.org> <hostname>
+  127.0.0.1 localhost.localdomain localhost 〈ホスト名〉
+  ::1   localhost.localdomain localhost 〈ホスト名〉
+  ...
+  ```
+  
+  ### GRUBのインストール
+  ```
+  $ pacman -S grub dosfstools efibootmgr
+  $ grub-install --target=x86_64-efi --efi-directory=/boot 
+  --bootloader-id=arch_grub --recheck --debug
+  # めんどくさい場合は
+  # $ grub-install --force --recheck /dev/sda
+  $ grub-mkconfig -o /boot/grub/grub.cfg
+  ```
+  念の為，UEFIファームウェアにブータブルスタブを特定の場所に置く．
+  ```
+  $ mkdir /boot/EFI/boot
+  $ cp /boot/EFI/arch_grub/grubx64.efi  /boot/EFI/boot/bootx64.efi
+  ```
+  
+  ### 一般ユーザーの作成
+  ```
+  $ useradd -m -G wheel -s /bin/bash "ユーザー名"
+  $  passwd "ユーザー名"
+  ```
+  `$ visudo`
+  ...
+  %wheelの行をアンコメント
+  ```
+  ##
+  ## Runas alias specification
+  ##
+  
+  ##
+  ## User privilege specification
+  ##
+  root ALL=(ALL) ALL
+  
+  ## Uncomment to allow members of group wheel to execute any command
+  %wheel ALL=(ALL) ALL
+  
+  ## Same thing without a password
+  # %wheel ALL=(ALL) NOPASSWD: ALL
+  ...
+  ```
+  
+  ### yaourtのインストール
+  `$ sudo vim /etc/pacjjman.conf`
+  ```
+  ...
+  #[testing]
+  #Include = /etc/pacman.d/mirrorlist
+  
+  [archlinuxfr]
+  SigLevel = Never
+  Server = http://repo.archlinux.fr/$arch
+  ...
+  ```
+  ```
+  $ sudo pacman -Syy yaourt
+  ```
+  
+  ## 環境構築
+  ### Xorgのインストール
+  graphic driverのインストール
+  ```
+  $ lspci | grep VGA
+  # nvidiaならxf86-video-nouveau
+  # amdgpuならxf86-video-amdgpu
+  $ sudo pacman -S xf86-video-intel
+  $ sudo pacman -S xorg-server xorg-xinit mesa xorg-xclock xorg-xbacklight
+  ```
+  ### ネットワーク設定用ツール
+  ```
+  $ sudo pacman -S networkmanager network-manager-applet 
+  gnome-keyring wpa_supplicant dialog 
+  $ sudo systemctl enable NetworkManager.service
+  ```
+  
+  # lightdmとxfceその他最小
+  ```
+  $ pacman -S xfce4 xfce4-goodies lightdm lightdm-gtk-greeter 
+  lightdm-gtk-greeter-settings xdg-user-dirs-gtk gamin gvfs xarchiver 
+  zip unzip pulseaudio pulseaudio-alsa xfce4-pulseaudio-plugin 
+  pavucontrol noto-fonts-cjk alsa-utils firefox firefox-i18n-ja 
+  dunst volumeicon 
+  ```
+  `$ sudo vim /etc/lightdm/lightdm.conf`
+  ```
+  ...
+  #unity-compositor-command=unity-system-compositor
+  #unity-compositor-timeout=60
+  greeter-session=lightdm-gtk-greeter
+  ...
+  ```
+  ```
+  $ sudo systemctl enable lightdm.service
+  ```
+  ### i3
+  ```
+  $ sudo pacman -S i3 dmenu compton
+  ```
+  
+  ### 日本語入力ツール
+  ```
+  $ pacman -S fcitx-im fcitx-configtool fcitx-mozc
+  ```
+  `$ sudo vim /home/USER/.xprofile`
+  ```
+  export GTK_IM_MODULE=fcitx
+  export QT_IM_MODULE=fcitx
+  export XMODIFIERS=”@im=fcitx”
+  ```
+  
+  ### FONTの設定
+  ```
+  $ su
+  ```
+  `$ nano /etc/fonts/conf.avail/71-no-embedded-bitmaps.conf`
+  ```
+  <?xml version="1.0"?>
+  <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+  <fontconfig>
+    <match target="font">
+      <edit mode="assign" name="embeddedbitmap">
+        <bool>false</bool>
+      </edit>
+      <edit mode="assign" name="hintstyle">
+         <const>hintnone</const>
+      </edit>
+    </match>
+  </fontconfig>
+  ```
+  ```
+  $ ln -s /etc/fonts/conf.avail/71-no-embedded-bitmaps.conf 
+  /etc/fonts/conf.d/71-no-embedded-bitmaps.conf
+  $ reboot
+  ```
+  
+  ### rictyインストール
+  ```
+  $ pacman -S binutils fakeroot
+  $ yaourt -S ttf-ricty
+  ```
+  
+  ### zshインストール
+  ```
+  $ sudo pacman -S zsh
+  $ curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
+  
+  ```
+  
+  ### 追加
+  ```
+  $ pacman -S openssh openssl gtkwave iverilog xsel poppler-data 
+  evince gufw ranger udisk2 udevil firefox firefox-i18n-ja exfat-git 
+  exfat-utils fuse-exfat ntfs-3g vlc udevil clipit dwb gimp maim gufw 
+  downgrade iotop xdotool arandr 
+  # SECURITY
+  $ sudo pacman -S nmap wireshark-cli aircrack-ng
+  $ yaourt -S metasploit nikto nessus edb-debugger 
+  bulk_extractor ophcrack john
+  
+  ## OTHER
+  $ yaourt -S go-mtpfs-git 
+  $ yaourt -A netgui luacairo
+  ```
+  
+  ### インストールしたパッケージのコンフィグ
+  ```
+  # dunst default config
+  $ mkdir ~/.config/dunst
+  $ sudo cp /usr/share/dunst/dunstrc ~/.config/dunst/
+  
+  # ranger default config
+  $ ranger --copy-config=all
+  ```
+  
+  ### beep音解除
+  `$ sudo vim /etc/modprobe.d/blacklist.conf`
+  ```
+  blacklist pcspkr
+  ```
+  
+  ### usb_mount
+  ```
+  # これはudevilいれてたらいらない
+  $ pacman -S devmon
+  
+  # (gvfsを入れていたらこの操作はいらない)
+  $ sudo chmod -s /usr/bin/udevil
+  $ sudo systemctl enable devmon@jun-i.service
+  ```
+  
+  
+  ### 再起動
+  ```
+  $ exit
+  $ umount -R /mnt
+  $ reboot
+  ```
+'''
+tags: []
+isStarred: false
+isTrashed: false
+createdAt: "2017-12-10T00:22:00.057Z"
+updatedAt: "2018-01-08T10:29:50.996Z"

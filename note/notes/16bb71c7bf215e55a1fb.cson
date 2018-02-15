@@ -1,0 +1,64 @@
+type: "MARKDOWN_NOTE"
+folder: "92a1498298cc1a89f0d2"
+title: "Debian on Zynq Memo"
+content: '''
+  # Debian on Zynq Memo
+  - hsiが起動しない 
+  sourceコマンドでvivado起動時同様にsetting*.shを叩く
+  <br>
+  - debootstrapのエラー
+  wgetrcの認証付きプロキシ設定編集
+  <br>
+  - 必要なパッケージ
+  ```
+  sudo dpkg --add-architecture i386
+  sudo apt-get update
+  sudo apt-get upgrade
+  sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 zlib1g:i386
+  sudo apt-get install libssl-dev device-tree-compiler
+  ```
+  <br>
+  
+  - slide p87
+  ```
+  sudo ln -s /media/jun-i/rootfs/linux/ /media/jun-i/rootfs/usr/src/kernel
+  ```
+  Linux のあとに/を忘れずに
+  <br>
+  - 起動時　
+  
+  シンボリックリンクを
+  ```
+  ln -s /usr/src/kernel
+  ```
+  に貼り直す
+  - cmaビルド時にbcのインストール欠かさず
+  ```
+  sudo apt-get install bc
+  ```
+  - Invalid UIO device file: '/dev/uio0'
+  ```
+  sudo chmod 666 /dev/uio*
+  ```
+  - udmabufはikwzw, setup_udmabuf.shは高前田先生
+  <br>
+  
+  - 権限をいただく
+  ```
+  sudo chown haya-lab /dev/xdvcfg
+  ```
+  - Menuconfigで失敗
+  ```
+  apt-get install libncurses5-dev
+  ```
+  
+  - cma領域確保
+  ```
+  sudo insmod udmabuf.ko 容量
+  ```
+'''
+tags: []
+isStarred: false
+isTrashed: false
+createdAt: "2017-12-09T13:53:12.412Z"
+updatedAt: "2017-12-09T13:53:15.120Z"
