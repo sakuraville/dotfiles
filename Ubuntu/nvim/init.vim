@@ -132,3 +132,5 @@ set backspace=indent,eol,start
 " inoremap jj <ESC>
 inoremap <silent> jj <ESC>
 
+" cursor shaping
+set guicursor=
