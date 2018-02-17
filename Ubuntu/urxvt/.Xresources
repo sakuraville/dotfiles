@@ -1,5 +1,5 @@
 URxvt.font: xft:Ricty Diminished Discord:bold:size=10:antialiase=true
-! URxvt.boldFont:
+URxvt.boldFont:
 URxvt.scrollBar:    false
 Urxvt*scrollTtyOutput : false
 URxvt*scrollWithBuffer: true
@@ -10,7 +10,7 @@ URxvt.pointerBlank: true
 Urxvt.secondaryScreen: 1
 Urxvt.secondaryScroll: 0
 Urxvt.internalBorder: 10
-urxvt.letterSpace: -10
+urxvt.letterSpace: 0
 URxvt.transparent: true
 URxvt.shading: 20
 

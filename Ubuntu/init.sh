@@ -21,6 +21,7 @@ ln -sf $HOME/dotfiles/Ubuntu/tmux/.tmux.conf $HOME/.tmux.conf
 
 # zsh
 ln -sf $HOME/dotfiles/Ubuntu/zsh/.zshrc $HOME/.zshrc
+ln -sf $HOME/dotfiles/Ubuntu/zsh/.dircolors $HOME/.dircolors
 
 # bash
 ln -sf $HOME/dotfiles/Ubuntu/bash/.bashrc $HOME/.bashrc
