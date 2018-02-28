@@ -314,3 +314,8 @@ if [ -e ~/.zshrc_local ]; then
     source ~/.zshrc_local
 fi
 # }}}
+#
+export DefaultIMModule=fcitx
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
