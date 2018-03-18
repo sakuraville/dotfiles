@@ -5,6 +5,8 @@ ln -sf $HOME/dotfiles/Ubuntu/i3/config $HOME/.config/i3/config
 ln -sf $HOME/dotfiles/Ubuntu/i3/i3blocks.conf $HOME/.config/i3/i3blocks.conf
 
 # nvim
+mkdir -p $HOME/.config/nvim
+mkdir -p $HOME/.config/dein
 ln -sf $HOME/dotfiles/Ubuntu/nvim/init.vim $HOME/.config/nvim/init.vim
 ln -sf $HOME/dotfiles/Ubuntu/nvim/plugins.toml $HOME/.config/dein/plugins.toml
 ln -sf $HOME/dotfiles/Ubuntu/nvim/lazy.toml $HOME/.config/dein/lazy.toml
