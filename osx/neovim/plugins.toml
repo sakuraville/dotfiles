@@ -1,0 +1,23 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_add = '''
+  let g:lightline = {'colorscheme': 'wombat'}
+'''
+[[plugins]]
+repo = 'cespare/vim-toml'
+
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+repo = 'plasticboy/vim-markdown'
+
+[[plugins]]
+repo = 'iamcco/markdown-preview.vim'
+
