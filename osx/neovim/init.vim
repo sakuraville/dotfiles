@@ -10,7 +10,6 @@ let g:python3_host_prog = '/usr/local/Cellar/python/3.6.5/bin/python3'
 let g:python2_host_prog = '/usr/local/Cellar/python@2/2.7.15/bin/python'
 let g:deoplete#enable_at_startup = 1 
 
-
 " {{{ dein
 let s:dein_dir = expand('$DATA/dein')
 if &runtimepath !~# '/dein.vim'
@@ -20,7 +19,6 @@ if &runtimepath !~# '/dein.vim'
   if !isdirectory(s:dein_repo_dir)
       call system('git clone https://github.com/Shougo/dein.vim ' . shellescape(s:dein_repo_dir))
   endif
-
   execute 'set runtimepath^=' . s:dein_repo_dir 
   endif
 
@@ -42,10 +40,9 @@ if has('vim_starting') && dein#check_install()
 endif
 " }}}
 
-" --------------------------------
-" --------------------------------
-
+" -----------------------------------
 " LOOKS GOOD
+" -----------------------------------
 
 " show line number
 set number
@@ -54,19 +51,17 @@ set ruler
 " syntax highlight on
 syntax enable
 " scroll with margins
-set scrolloff=2
+set scrolloff=3
 " deactivate start indicator
 set shortmess+=I
-" show invisible characters
-" set list
-" unified as background color
-"autocmd ColorScheme * highlight Normal ctermbg=none
-"autocmd ColorScheme * highlight LineNr ctermbg=none
-" colorscheme <name>
-" colorscheme molokai
-
+" easier to recognize parentheses
+set showmatch
+" highlight line
+set cursorline
+hi clear CursorLine
+" -----------------------------------
 " TAB & INDENT
-
+" -----------------------------------
 filetype plugin indent on
 " space instead of tab characters
 set expandtab
@@ -78,9 +73,12 @@ set softtabstop=2
 set shiftwidth=2
 " automatic indentation
 set autoindent
+set smartindent
 set cindent
 
+" -----------------------------------
 " SEARCH
+" -----------------------------------
 
 " uppercase and lowercase arent distinguished
 set ignorecase
@@ -94,21 +92,25 @@ set nohlsearch
 set wrapscan
 " Ucase and Lcase arent distinguish on completion
 set infercase
-" easier to recognize parentheses
-set showmatch
 " showmatch[s] * 0.1
 set matchtime=1
+" highlight
+set hlsearch
+" wrap search
+set wrapscan
+" ESC hits no highlight
+nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
+" -----------------------------------
 " OTHER
+" -----------------------------------
 
 " enable clipboard
 set clipboard+=unnamedplus
 " complement command line
-set wildmenu
 set wildmode=list:longest,full
-" enable cursorline
-set cursorline
-hi clear CursorLine
+" autoload
+set autoread
 " open another file even if there is an unsave file
 set hidden
 " disable display flash
@@ -128,8 +130,12 @@ set noswapfile
 set backspace=indent,eol,start
 " inoremap jj <ESC>
 inoremap <silent> jj <ESC>
-
 " cursor shaping
 set guicursor=
 
+" -----------------------------------
+" Application
+" -----------------------------------
+
 let g:vim_markdown_folding_disabled = 1
+
