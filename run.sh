@@ -9,4 +9,6 @@ if [ ! -d $HOME/dotfiles ]; then
 fi
 
 # default
-sh $HOME/dotfiles/osx/init.sh
+sh $HOME/dotfiles/common/init.sh
+#sh $HOME/dotfiles/ubuntu/init.sh
+

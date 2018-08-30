@@ -1,5 +1,5 @@
 # configuration for compress
-fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
+# fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
 autoload -U compinit
 compinit 
 
@@ -17,12 +17,12 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions", use:'src/_*', lazy:true
 zplug "chrissicool/zsh-256color"
 # Install plugins if there are plugins that have not been installed
-# if ! zplug check --verbose; then
-#   printf "Install? [y/N]: "
-#   if read -q; then
-#     echo; zplug install
-#   fi
-# fi
+if ! zplug check --verbose; then
+  printf "Install? [y/N]: "
+  if read -q; then
+    echo; zplug install
+  fi
+fi
 # Then, source plugins and add commands to $PATH
 zplug load
 

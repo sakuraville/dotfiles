@@ -1,3 +1,0 @@
-#!/bin/bash
-. /opt/Xilinx/Vivado_HLS/2017.2/.settings64-Vivado_High_Level_Synthesis.sh
-vivado_hls &
