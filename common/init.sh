@@ -7,9 +7,9 @@ ln -sf $HOME/dotfiles/common/i3/config $HOME/.config/i3/config
 # neovim
 mkdir -p $HOME/.config/nvim
 mkdir -p $HOME/.config/dein
-ln -sf $HOME/dotfiles/common/nvim/init.vim $HOME/.config/nvim/init.vim
-ln -sf $HOME/dotfiles/common/nvim/plugins.vim $HOME/.config/dein/plugins.toml
-ln -sf $HOME/dotfiles/common/nvim/lazy.vim $HOME/.config/dein/lazy.toml
+ln -sf $HOME/dotfiles/common/neovim/init.vim $HOME/.config/nvim/init.vim
+ln -sf $HOME/dotfiles/common/neovim/plugins.toml $HOME/.config/dein/plugins.toml
+ln -sf $HOME/dotfiles/common/neovim/lazy.toml $HOME/.config/dein/lazy.toml
 
 # ranger
 ln -sf $HOME/dotfiles/common/ranger $HOME/.config/ranger

@@ -6,8 +6,8 @@
 let $CACHE = empty($XDG_CACHE_HOME) ? expand('$HOME/.cache') : $XDG_CACHE_HOME
 let $CONFIG = empty($XDG_CONFIG_HOME) ? expand('$HOME/.config') : $XDG_CONFIG_HOME
 let $DATA = empty($XDG_DATA_HOME) ? expand('$HOME/.local/share') : $XDG_DATA_HOME
+let g:python_host_prog = '/usr/local/Cellar/python@2/2.7.15/bin/python'
 let g:python3_host_prog = '/usr/local/Cellar/python/3.6.5/bin/python3'
-let g:python2_host_prog = '/usr/local/Cellar/python@2/2.7.15/bin/python'
 let g:deoplete#enable_at_startup = 1 
 
 " {{{ dein
