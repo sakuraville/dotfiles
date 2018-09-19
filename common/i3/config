@@ -168,11 +168,11 @@ for_window [class="^.*"] border pixel 2
 hide_edge_borders vertical
 
 # exec --no-startup-id feh --bg-fill $HOME/.wallpaper.jpg
-exec --no-startup-id nitrogen --restore
+# exec --no-startup-id nitrogen --restore
 exec --no-startup-id nm-applet
 exec --no-startup-id volumeicon
 exec --no-startup-id xrdb ~/.Xresources
-exec --no-startup-id compton -b
+# exec --no-startup-id compton -b
 exec --no-startup-id fcitx-autostart
 #exec --no-startup-id xrandr --output HDMI-2 --auto --output HDMI-1 --auto --right-of HDMI-2
 # exec --no-startup-id dunst

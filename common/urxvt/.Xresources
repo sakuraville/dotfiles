@@ -1,4 +1,4 @@
-URxvt.font: xft:Ricty Diminished Discord:bold:size=12:antialiase=true
+URxvt.font: xft:Ricty Diminished Discord:bold:size=11:antialiase=true
 ! URxvt.boldFont:
 URxvt.scrollBar:    false
 Urxvt*scrollTtyOutput : false
