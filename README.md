@@ -1,4 +1,4 @@
 # dotfiles
 
-My Arch Linux Settings
+My Arch Linux & Mac Settings
 
